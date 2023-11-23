@@ -62,6 +62,18 @@ const requestedPostId = req.params.postId;
 
 });
 
+const methodOverride = require('method-override');
+app.use(methodOverride('_method'));
+
+app.delete("/posts/:postId", function(req, res){
+  const requestedPostId = req.params.postId;
+  Post.findByIdAndRemove(requestedPostId, function(err){
+    if (!err){
+      console.log("Successfully deleted the post.");
+      res.redirect("/");
+    }
+  });
+});
 
 app.get("/about", function(req, res){
   res.render("about", {aboutContent: aboutContent});
