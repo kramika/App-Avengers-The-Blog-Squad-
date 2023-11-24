@@ -75,6 +75,37 @@ app.delete("/posts/:postId", function(req, res){
   });
 });
 
+app.get("/posts/:postId/edit", function(req, res){
+  const requestedPostId = req.params.postId;
+  Post.findOne({_id: requestedPostId}, function(err, post){
+    if (!post) {
+      res.redirect("/"); // Handle the case where the post is not found
+    } else {
+      res.render("edit", {
+        title: post.title,
+        content: post.content,
+        postId: post._id
+      });
+    }
+  });
+});
+
+app.put("/posts/:postId", function(req, res){
+  const requestedPostId = req.params.postId;
+  const updatedTitle = req.body.postTitle;
+  const updatedContent = req.body.postBody;
+  Post.findByIdAndUpdate(requestedPostId, {title: updatedTitle, content: updatedContent}, function(err){
+    if (err){
+      // handle the error here
+      console.error(err);
+      res.status(500).send("Something went wrong");
+    } else {
+      console.log("Successfully updated the post.");
+      res.redirect("/");
+    }
+  });
+});
+
 app.get("/about", function(req, res){
   res.render("about", {aboutContent: aboutContent});
 });
