@@ -39,5 +39,15 @@ html {
   color: #fff;
 }
 .option{
-margin-left:80%;
+margin-left:87%;
+}
+hr {
+  border: none;
+  height: 2px; /* Adjust the height as needed */
+  background-color: #1abc9c; /* Adjust the color as needed */
+}
+.hrr{
+  border: none;
+  height: 2px; /* Adjust the height as needed */
+  background-color: #000;
 }

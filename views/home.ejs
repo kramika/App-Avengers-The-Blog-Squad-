@@ -1,21 +1,31 @@
-
 <%- include("partials/header"); -%>
 
-    <h1>Home</h1>
-    <p> <%= startingContent %> </p>
+<h1>Home</h1>
+<p><%= startingContent %></p>
+<hr class="hrr">
+<% posts.forEach(function(post){ %>
+<h1><%= post.title %></h1>
+<p>
+  <%= (post.content || "").substring(0, 160) +"..." %>
+  <a href="/posts/<%= post._id %>">Read More</a>
+  <!-- <a href="/posts/<%= post._id %>/edit">Edit</a></p> -->
+</p>
 
-
-    <% posts.forEach(function(post){ %>
-      <h1><%= post.title %></h1>
-      <p><%= (post.content || "").substring(0, 160) +"..." %>
-      <a href="/posts/<%= post._id %>">Read More</a>
-      <a href="/posts/<%= post._id %>/edit">Edit</a></p>
-      <div class="option">
-         <form method="POST" action="/posts/<%= post._id %>?_method=DELETE">
-        <button type="submit">Delete</button>
-      </form>
-    </div>
-          <% }) %>
-    
-
-<%- include("partials/footer"); -%>
+<div class="option">
+  <form
+    method="GET"
+    action="/posts/<%= post._id %>/edit"
+    style="display: inline"
+  >
+    <button type="submit">Edit</button>
+  </form>
+  <form
+    method="POST"
+    action="/posts/<%= post._id %>?_method=DELETE"
+    style="display: inline"
+  >
+    <button type="submit">Delete</button>
+  </form>
+</div>
+<hr>
+<% }) %> <%- include("partials/footer"); -%>
