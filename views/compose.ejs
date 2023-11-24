@@ -1,14 +1,50 @@
-
 <%- include("partials/header"); -%>
-    <h1>Compose</h1>
-    <form class="" action="/compose" method="post">
-      <div class="form-group">
-        <label>Title</label>
-        <input class="form-control" type="text" name="postTitle">
-        <label>Post</label>
-        <textarea class="form-control" name="postBody" rows="5" cols="30"></textarea>
-      </div>
-      <button class="btn btn-primary" type="submit" name="button">Publish</button>
-    </form>
+<h1>Compose</h1>
+<form class="" action="/compose" method="post">
+  <div class="form-group">
+    <label>Title</label>
+    <input class="form-control" type="text" name="postTitle" id="postTitle">
+    <label>Post</label>
+    <textarea class="form-control" name="postBody" rows="5" cols="30" id="postBody"></textarea>
+  </div>
+  <button class="btn btn-primary" type="submit" name="button">Publish</button>
+</form>
+
+<!-- Display autosave message -->
+<div id="autosave-message" style="color: green;"></div>
+
+<script>
+  // Retrieve draft from local storage
+  const draftTitle = localStorage.getItem('draftTitle') || '';
+  const draftContent = localStorage.getItem('draftContent') || '';
+
+  // Set initial values for title and content
+  document.getElementById('postTitle').value = draftTitle;
+  document.getElementById('postBody').value = draftContent;
+
+  // Autosave function
+  function autosave() {
+    const title = document.getElementById('postTitle').value;
+    const content = document.getElementById('postBody').value;
+    const draft = {
+      title: title,
+      content: content
+    };
+
+    // Display autosave message
+    document.getElementById('autosave-message').innerText = 'Autosaving...';
+
+    localStorage.setItem('draftTitle', title);
+    localStorage.setItem('draftContent', content);
+
+    // Clear autosave message after 1 second (adjust as needed)
+    setTimeout(() => {
+      document.getElementById('autosave-message').innerText = '';
+    }, 1000);
+  }
+
+  // Trigger autosave every 5 seconds
+  setInterval(autosave, 10000);// in millisecond
+</script>
 
 <%- include("partials/footer"); -%>
